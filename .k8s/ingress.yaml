@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - churrer.xyz
+      - house.churrer.xyz
       secretName: house-tls
   rules:
-  - host: "churrer.xyz"
+  - host: "house.churrer.xyz"
     http:
       paths:
       - pathType: Prefix
