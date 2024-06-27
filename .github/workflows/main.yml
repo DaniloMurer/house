@@ -11,7 +11,7 @@ jobs:
 
       - name: Install Doctl
         uses: digitalocean/action-doctl@v2
-        with: ${{secrets.DIGITALOCEAN_ACCESS_TOKEN}}
+        with: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Build container image
         run: docker build -t ${{ secrets.REGISTRY_NAME }}/house:$(echo $GITHUB_SHA | head -c7) .
