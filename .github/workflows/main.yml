@@ -28,6 +28,9 @@ jobs:
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
+      
+      - name: Switch namespace
+        run: kubectl config set-context --current --namespace=house
 
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f $GITHUB_WORKSPACE/.k8s/service.yaml
