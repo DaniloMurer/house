@@ -20,4 +20,4 @@ spec:
           service:
             name: house
             port:
-              number: 80
+              number: 3000
