@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: house
+spec:
+  selector:
+    matchLabels:
+      app: house
+  template:
+    metadata:
+      labels:
+        app: house
+    spec:
+      containers:
+      - name: house
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "120Mi"
+            cpu: "120"
+        image: <IMAGE>
+        ports:
+        - containerPort: 3000
