@@ -4,6 +4,8 @@ ENV NODE_ENV=production
 
 WORKDIR /src
 
+ENV NITRO_PORT=80
+
 # get my bad boy yarn for building
 RUN npm install yarn
 

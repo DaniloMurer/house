@@ -22,4 +22,4 @@ spec:
             cpu: "120"
         image: <IMAGE>
         ports:
-        - containerPort: 3000
+        - containerPort: 80
