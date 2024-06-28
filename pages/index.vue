@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  colorMode: 'light'
+})
 const route = useRoute()
 function fetchData() : any {
   console.log($fetch('/api/test').then(data => {console.log(data)}))
