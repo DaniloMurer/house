@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import {getCurrentInstance, onMounted, ref} from 'vue';
 import NavBar from './components/NavBar.vue'
 import Card from 'primevue/card';
-
 const cards = ref();
-
+const apiBasePath = getCurrentInstance()?.appContext.config.globalProperties.apiBasePath;
 onMounted( async () => {
-  const response = await fetch('https://house-api.churrer.xyz/api/cards');
+  const response = await fetch(`${apiBasePath}/cards`);
   cards.value = await response.json();
 })
 
