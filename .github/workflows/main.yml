@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - develop
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,17 +14,26 @@ jobs:
         with: 
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Build container image
-        run: docker build -t ${{ secrets.REGISTRY_NAME }}/house:$(echo $GITHUB_SHA | head -c7) .
+      - name: Build client container image
+        run: docker build -t ${{ secrets.REGISTRY_NAME }}/house:$(echo $GITHUB_SHA | head -c7) ./client
+
+      - name: Build server container image
+        run: docker build -t ${{ secrets.REGISTRY_NAME }}/house-server:$(echo $GITHUB_SHA | head -c7) ./server
 
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 1200
 
-      - name: Push image to DigitalOcean Container Registry
+      - name: Push client image to DigitalOcean Container Registry
         run: docker push ${{ secrets.REGISTRY_NAME }}/house:$(echo $GITHUB_SHA | head -c7)
 
+      - name: Push server image to DigitalOcean Container Registry
+        run: docker push ${{ secrets.REGISTRY_NAME }}/house-server:$(echo $GITHUB_SHA | head -c7)
+
+      - name: Update deployment file (client image)
+        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE_FRONTEND>|${{ secrets.REGISTRY_NAME }}/house:'${TAG}'|' $GITHUB_WORKSPACE/.k8s/deployment.yaml
+
       - name: Update deployment file
-        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.REGISTRY_NAME }}/house:'${TAG}'|' $GITHUB_WORKSPACE/.k8s/deployment.yaml
+        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE_BACKEND>|${{ secrets.REGISTRY_NAME }}/house-server:'${TAG}'|' $GITHUB_WORKSPACE/.k8s/deployment.yaml
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}

@@ -1,10 +1,9 @@
 # build stage
 FROM node:22.3.0 as build-stage
-RUN npm install -g yarn
 WORKDIR /app
 COPY . ./
-RUN yarn install
-RUN yarn run build
+RUN npm install
+RUN npm run build
 
 # production stage
 FROM nginx:stable-alpine as production-stage

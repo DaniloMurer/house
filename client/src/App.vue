@@ -6,7 +6,7 @@ import Card from 'primevue/card';
 const cards = ref();
 
 onMounted( async () => {
-  const response = await fetch('http://localhost:3000/api/cards');
+  const response = await fetch('https://house-api.churrer.xyz/api/cards');
   cards.value = await response.json();
 })
 

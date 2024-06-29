@@ -12,8 +12,6 @@ import Toolbar from 'primevue/toolbar';
             <div class="flex-container-hor" style="margin-left: 0.5rem;">
               <span class="pi pi-crown"></span>
               <h3 style="word-break: break-all;">churrer.xyz</h3>
-              <Button>test</Button>
-              <Button></Button>
             </div>
         </template>
         <template #center>

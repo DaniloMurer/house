@@ -12,7 +12,7 @@ spec:
         app: house
     spec:
       containers:
-      - name: house
+      - name: house-client
         resources:
           requests:
             memory: "100Mi"
@@ -20,6 +20,17 @@ spec:
           limits:
             memory: "120Mi"
             cpu: "120"
-        image: <IMAGE>
+        image: <IMAGE_FRONTEND>
         ports:
         - containerPort: 80
+      - name: house-server
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "120Mi"
+            cpu: "120"
+        image: <IMAGE_BACKEND>
+        ports:
+          - containerPort: 3000
