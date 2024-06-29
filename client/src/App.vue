@@ -1,17 +1,29 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { onMounted, ref } from 'vue';
+import NavBar from './components/NavBar.vue'
+import Card from 'primevue/card';
+
+const cards = ref();
+
+onMounted( async () => {
+  const response = await fetch('http://localhost:3000/api/cards');
+  cards.value = await response.json();
+})
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <NavBar style="height: 10%;"></NavBar>
+  <div class="card-container">
+    <Card v-for="card in cards" style="width: 15rem; height: 20%;">
+      <template #title>
+        {{ card.title }}
+      </template>
+      <template #content>
+        {{ card.content }}
+      </template>
+    </Card>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
@@ -26,5 +38,12 @@ import HelloWorld from './components/HelloWorld.vue'
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+.card-container {
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
 </style>
