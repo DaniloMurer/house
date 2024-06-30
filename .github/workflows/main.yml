@@ -29,10 +29,16 @@ jobs:
       - name: Push server image to DigitalOcean Container Registry
         run: docker push ${{ secrets.REGISTRY_NAME }}/house-server:$(echo $GITHUB_SHA | head -c7)
 
+      - name: Update secrets file
+        run: sed -i 's|<MONGO_USERNAME>|${{ secrets.MONGO_USERNAME }}|' $GITHUB_WORKSPACE/.k8s/mongo/credentials.yaml
+
+      - name: Update secrets file
+        run: sed -i 's|<MONGO_PASSWORD>|${{ secrets.MONGO_PASSWORD }}|' $GITHUB_WORKSPACE/.k8s/mongo/credentials.yaml
+
       - name: Update deployment file (client image)
         run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE_FRONTEND>|${{ secrets.REGISTRY_NAME }}/house:'${TAG}'|' $GITHUB_WORKSPACE/.k8s/deployment.yaml
 
-      - name: Update deployment file
+      - name: Update deployment file (server image)
         run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE_BACKEND>|${{ secrets.REGISTRY_NAME }}/house-server:'${TAG}'|' $GITHUB_WORKSPACE/.k8s/deployment.yaml
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
@@ -40,6 +46,9 @@ jobs:
       
       - name: Switch namespace
         run: kubectl config set-context --current --namespace=house
+
+      - name: Deploy mongo db
+        run: kubectl apply -f $GITHUB_WORKSPACE/.k8s/mongo
 
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f $GITHUB_WORKSPACE/.k8s/service.yaml

@@ -34,3 +34,21 @@ spec:
         image: <IMAGE_BACKEND>
         ports:
           - containerPort: 3000
+        env:
+          - name: DATABASE_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: mongo-config
+                key: mongo-host
+          - name: DATABASE_NAME
+            value: "house"
+          - name: DATABASE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-auth
+                key: username
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-auth
+                key: password
