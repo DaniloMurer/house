@@ -1,5 +1,7 @@
-import { Controller, Get } from "@nestjs/common";
+import {Body, Controller, Get, Post} from "@nestjs/common";
 import { CardService } from "./card.service";
+import {Card} from "./card.entity";
+import {CardDto} from "./card.dto";
 
 @Controller()
 export class CardController {
@@ -7,7 +9,11 @@ export class CardController {
     constructor(private readonly service: CardService) {}
 
     @Get('/api/cards')
-    getCards() {
-        return this.service.getCards();
+    async getCards() {
+        return await this.service.getCards();
+    }
+    @Post('/api/cards')
+    async mockCardSave(@Body() card: CardDto){
+        return await this.service.saveCard(card);
     }
 }

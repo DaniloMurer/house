@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import IconField from 'primevue/iconfield';
-import InputIcon from 'primevue/inputicon';
-import InputText from 'primevue/inputtext';
-import Tag from 'primevue/tag';
-import Toolbar from 'primevue/toolbar';
+import {useVisibleStore} from "../store/visible.ts";
+
+const visibleStore = useVisibleStore();
 </script>
 
 <template>
@@ -23,8 +21,8 @@ import Toolbar from 'primevue/toolbar';
             </IconField>
         </template>
         <template #end>
-            <div style="width: 5rem">
-                <Tag severity="info" value="Primary"/>
+            <div>
+              <Button severity="help" label="Create Card" @click="visibleStore.visible = true"/>
             </div>
         </template>
     </Toolbar>
