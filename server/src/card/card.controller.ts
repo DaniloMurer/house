@@ -1,6 +1,5 @@
 import {Body, Controller, Get, Post} from "@nestjs/common";
 import { CardService } from "./card.service";
-import {Card} from "./card.entity";
 import {CardDto} from "./card.dto";
 
 @Controller()
