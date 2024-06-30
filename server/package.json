@@ -32,6 +32,11 @@
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20"
   },
+  "overrides": {
+    "typeorm": {
+      "mongodb": "6.8.0"
+    }
+  },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
